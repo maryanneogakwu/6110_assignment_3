@@ -1,5 +1,5 @@
 # 6110_assignment_3
-Analysis of Shotgun metagenomics of human gut microbiomes in vegans and omnivores
+Analysis of Shotgun metagenomics of human gut microbiomes in severe non-reponsive cleiac disease patients vs asymptomatic celiac pateients (control)
 
 
 ## Dependencies and Packages
