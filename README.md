@@ -1,5 +1,5 @@
 # 6110_assignment_3
-Analysis of Shotgun metagenomics of human gut microbiomes in severe non-reponsive cleiac disease patients vs asymptomatic celiac pateients (control)
+Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive celiac disease patients (NRCD) vs asymptomatic celiac pateients (control)
 
 
 ## Dependencies and Packages
