@@ -24,3 +24,8 @@ hash.k2d -> The k-mer hash table (the big one, ~8 GB)
 opts.k2d  -> Database build options
 taxo.k2d -> Taxonomy information
 
+#Randomly selecting 5 high NRCD patients
+awk -F'\t' '$3 == "high-NRCD" {print $1}' metadata_table.tsv > high_nrcd_all.txt
+shuf -n 5 high_nrcd_all.txt > high_nrcd_selected.txt
+cat high_nrcd_selected.txt
+ERR1202
