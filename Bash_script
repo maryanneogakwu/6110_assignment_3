@@ -63,3 +63,30 @@ SRR22402265	Cii045	tCD_control
 SRR22402328	CMa003	tCD_control
 SRR22402331	CMa005	tCD_control
 SRR22402374	387DCF	tCD_control
+
+#Downloading the seleted high-NRCD samples from ENA
+for run in ERR12025082 ERR12025102 ERR12025074 ERR12025109 ERR12025104; do
+    prefix=$(echo $run | cut -c1-6)
+    suffix=$(echo $run | tail -c 2)
+    wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/${prefix}/00${suffix}/${run}/${run}_1.fastq.gz
+    wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/${prefix}/00${suffix}/${run}/${run}_2.fastq.gz
+done
+
+#Downloading the tCD controls from NCBI
+for run in SRR22402259 SRR22402265 SRR22402328 SRR22402331 SRR22402374; do
+    prefetch $run --output-directory ~/metagenomics/tcd
+    fasterq-dump --split-files \
+                 --outdir ~/metagenomics/tcd \
+                 --threads 4 \
+                 ~/metagenomics/tcd/$run/$run.sra
+    gzip ~/metagenomics/tcd/${run}_*.fastq
+done
+
+for run in SRR22402259 SRR22402265 SRR22402328 SRR22402331 SRR22402374; do
+    prefetch $run --output-directory ~/metagenomics/tcd
+    fasterq-dump --split-files \
+                 --outdir ~/metagenomics/tcd \
+                 --threads 4 \
+                 ~/metagenomics/tcd/$run/$run.sra
+    gzip ~/metagenomics/tcd/${run}_*.fastq
+done
