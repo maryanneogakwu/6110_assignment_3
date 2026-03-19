@@ -5,7 +5,7 @@ Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive c
 ## Dependencies and Packages
 | Tool | Version | Source | Purpose |
 |------|---------|--------|---------|
-| SRA Tools | 3.0.5 | NCBI | Raw data download |
+| Aspera-cli | 4.20.0 | Bioconda | High speed Raw data download |
 | Kraken2 | 2.17.1 | Bioconda| Taxonomic classification |
 | Braken | 3.1 | Bioconda | Computation of species abundance |
 
