@@ -66,27 +66,35 @@ SRR22402374	387DCF	tCD_control
 
 #Downloading the seleted high-NRCD samples from ENA
 for run in ERR12025082 ERR12025102 ERR12025074 ERR12025109 ERR12025104; do
-    prefix=$(echo $run | cut -c1-6)
-    suffix=$(echo $run | tail -c 2)
-    wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/${prefix}/00${suffix}/${run}/${run}_1.fastq.gz
-    wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/${prefix}/00${suffix}/${run}/${run}_2.fastq.gz
+    echo "Getting URLs for $run..."
+    urls=$(wget -qO- "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${run}&result=read_run&fields=fastq_ftp&format=tsv" \
+           | tail -1 | cut -f2 | tr ';' '\n')
+    
+    # Download each file
+    for url in $urls; do
+        wget -c -P ~assignment_03/metagenomics/high_nrcd "ftp://${url}"
+    done
+    echo "Done $run"
 done
 
 #Downloading the tCD controls from NCBI
 for run in SRR22402259 SRR22402265 SRR22402328 SRR22402331 SRR22402374; do
-    prefetch $run --output-directory ~/metagenomics/tcd
-    fasterq-dump --split-files \
-                 --outdir ~/metagenomics/tcd \
-                 --threads 4 \
-                 ~/metagenomics/tcd/$run/$run.sra
-    gzip ~/metagenomics/tcd/${run}_*.fastq
+    echo "Getting URLs for $run..."
+    urls=$(wget -qO- "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=sra&term=${run}&retmode=json" \
+           | python3 -c "import sys,json; print(json.load(sys.stdin)['esearchresult']['idlist'][0])" 2>/dev/null)
+    
+    wget -c -P ~metagenomics/tcd \
+      "https://sra-pub-run-odp.s3.amazonaws.com/sra/${run}/${run}"
+    echo "Done $run"
 done
 
+#There is a need to convert the SRR files into fastq format 
 for run in SRR22402259 SRR22402265 SRR22402328 SRR22402331 SRR22402374; do
-    prefetch $run --output-directory ~/metagenomics/tcd
+    echo "$(date): Converting $run..."
     fasterq-dump --split-files \
-                 --outdir ~/metagenomics/tcd \
                  --threads 4 \
-                 ~/metagenomics/tcd/$run/$run.sra
+                 --outdir ~/metagenomics/tcd \
+                 ~/metagenomics/tcd/${run}
     gzip ~/metagenomics/tcd/${run}_*.fastq
+    echo "$(date): Done $run"
 done
