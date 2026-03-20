@@ -25,7 +25,7 @@ hash.k2d -> The k-mer hash table (the big one, ~8 GB)
 opts.k2d  -> Database build options
 taxo.k2d -> Taxonomy information
 
-#Randomly selecting 5 high NRCD patients from the 39 used in the study
+#Randomly selecting 3 high NRCD patients from the 39 used in the study
 awk -F'\t' '$3 == "high-NRCD" {print $1"\t"$2"\t"$3}' metadata_table.tsv > high_nrcd_all.txt
 shuf -n 5 high_nrcd_all.txt > high_nrcd_selected.txt
 
@@ -33,18 +33,14 @@ cat high_nrcd_selected.txt
 ERR12025082	1807	high-NRCD
 ERR12025102	1837	high-NRCD
 ERR12025074	1797	high-NRCD
-ERR12025109	1846	high-NRCD
-ERR12025104	1840	high-NRCD
 
-#Randomly selecting 5 out of the 49 control samples used in the study
+#Randomly selecting 3 out of the 49 control samples used in the study
 shuf -n 5 tCD_controls_metadata.tsv > tCD_selected.txt
 
 cat tCD_selected.txt
 SRR22402259	Cii071	tCD_control
 SRR22402265	Cii045	tCD_control
 SRR22402328	CMa003	tCD_control
-SRR22402331	CMa005	tCD_control
-SRR22402374	387DCF	tCD_control
 
 echo "    High-NRCD selected    " > selection_log.txt
 cat high_nrcd_selected.txt >> selection_log.txt
@@ -89,3 +85,15 @@ for run in SRR22402259 SRR22402265 SRR22402328 SRR22402331 SRR22402374; do
     done
     echo "$(date): Done $run"
 done
+
+
+#Quality Control
+fastqc ~/binf_6110/assignment_03/metagenomics/high_nrcd/*.fastq.gz \
+       ~/binf_6110/assignment_03/metagenomics/tcd/*.fastq.gz \
+       --outdir ~/binf_6110/assignment_03/metagenomics/qc/raw \
+       --threads 4
+
+conda install -c bioconda multiqc -y
+
+multiqc ~/binf_6110/assignment_03/metagenomics/qc/raw \
+        --outdir ~/binf_6110/assignment_03/metagenomics/qc/raw
