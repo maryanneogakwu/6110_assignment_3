@@ -1,4 +1,5 @@
-Bash scripting
+#!/bin/bash
+#Bash scripting
 
 # Installing Kraken2
 conda install -c bioconda kraken2
@@ -77,24 +78,14 @@ for run in ERR12025082 ERR12025102 ERR12025074 ERR12025109 ERR12025104; do
     echo "Done $run"
 done
 
-#Downloading the tCD controls from NCBI
+#Downloading the tCD controls from the ENA database browser
 for run in SRR22402259 SRR22402265 SRR22402328 SRR22402331 SRR22402374; do
-    echo "Getting URLs for $run..."
-    urls=$(wget -qO- "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=sra&term=${run}&retmode=json" \
-           | python3 -c "import sys,json; print(json.load(sys.stdin)['esearchresult']['idlist'][0])" 2>/dev/null)
+    echo "$(date): Downloading $run..."
+    urls=$(wget -qO- "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${run}&result=read_run&fields=fastq_ftp&format=tsv" \
+           | tail -1 | cut -f2 | tr ';' '\n')
     
-    wget -c -P ~metagenomics/tcd \
-      "https://sra-pub-run-odp.s3.amazonaws.com/sra/${run}/${run}"
-    echo "Done $run"
-done
-
-#There is a need to convert the SRR files into fastq format 
-for run in SRR22402259 SRR22402265 SRR22402328 SRR22402331 SRR22402374; do
-    echo "$(date): Converting $run..."
-    fasterq-dump --split-files \
-                 --threads 4 \
-                 --outdir ~/metagenomics/tcd \
-                 ~/metagenomics/tcd/${run}
-    gzip ~/metagenomics/tcd/${run}_*.fastq
+    for url in $urls; do
+        wget -c "ftp://${url}"
+    done
     echo "$(date): Done $run"
 done
