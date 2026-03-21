@@ -177,3 +177,6 @@ done
 
 echo "$(date): All done!"
 sbatch kraken2_job.sh
+
+#Conversion to BIOM on DRAC Nibi cluster
+kraken-biom stool_sample_bracken_species.report
