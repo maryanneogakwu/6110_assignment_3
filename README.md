@@ -8,6 +8,7 @@ Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive c
 | Aspera-cli | 4.20.0 | Bioconda | High speed Raw data download |
 | Fastqc | 0.12.1 | Bioconda | Raw reads QC analyser |
 | Multiqc | 1.33 |Bioconda/noarch| Summarizing Fastqc reports in one document |
+| Tmux | 3.6 | Conda-forge | Terminal multiplexer | 
 | Kraken2 | 2.17.1 | Bioconda| Taxonomic classification |
 | Braken | 3.1 | Bioconda | Computation of species abundance |
 
