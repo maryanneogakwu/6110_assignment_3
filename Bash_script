@@ -52,14 +52,12 @@ cat selection_log.txt
 ERR12025082	1807	high-NRCD
 ERR12025102	1837	high-NRCD
 ERR12025074	1797	high-NRCD
-ERR12025109	1846	high-NRCD
-ERR12025104	1840	high-NRCD
+
     tCD controls selected     
 SRR22402259	Cii071	tCD_control
 SRR22402265	Cii045	tCD_control
 SRR22402328	CMa003	tCD_control
-SRR22402331	CMa005	tCD_control
-SRR22402374	387DCF	tCD_control
+
 
 #Downloading the seleted high-NRCD samples from ENA
 for run in ERR12025082 ERR12025102 ERR12025074 ERR12025109 ERR12025104; do
@@ -97,3 +95,44 @@ conda install -c bioconda multiqc -y
 
 multiqc ~/binf_6110/assignment_03/metagenomics/qc/raw \
         --outdir ~/binf_6110/assignment_03/metagenomics/qc/raw
+
+#Kraken2
+mkdir -p ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd
+mkdir -p ~/binf_6110/assignment_03/metagenomics/kraken2/tcd
+
+#Running Kraken2 on the high-NRCD samples
+for run in ERR12025082 ERR12025102 ERR12025074; do
+    echo "$(date): Running Kraken2 on $run..."
+    kraken2 --db ~/binf_6110/assignment_03/kraken2_db/standard_8 \
+            --paired \
+            --gzip-compressed \
+            --confidence 0.15 \
+            --threads 6 \
+            --output ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd/${run}.kraken \
+            --report ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd/${run}.report \
+            ~/binf_6110/assignment_03/metagenomics/high_nrcd/${run}_1.fastq.gz \
+            ~/binf_6110/assignment_03/metagenomics/high_nrcd/${run}_2.fastq.gz
+    echo "$(date): Done $run"
+done
+
+#Watching analysis progress
+watch -n 10 "echo '=== Completed samples ==='; \
+ls -lh ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd/*.report 2>/dev/null; \
+echo ''; \
+echo '=== Count ==='; \
+ls ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd/*.report 2>/dev/null | wc -l"
+
+#Running Kraken2 on the tCD control samples
+for run in SRR22402259 SRR22402265 SRR22402328; do
+    echo "$(date): Running Kraken2 on $run..."
+    kraken2 --db ~/binf_6110/assignment_03/kraken2_db/standard_8 \
+            --paired \
+            --gzip-compressed \
+            --confidence 0.15 \
+            --threads 6 \
+            --output ~/binf_6110/assignment_03/metagenomics/kraken2/tcd/${run}.kraken \
+            --report ~/binf_6110/assignment_03/metagenomics/kraken2/tcd/${run}.report \
+            ~/binf_6110/assignment_03/metagenomics/tcd/${run}_1.fastq.gz \
+            ~/binf_6110/assignment_03/metagenomics/tcd/${run}_2.fastq.gz
+    echo "$(date): Done $run"
+done
