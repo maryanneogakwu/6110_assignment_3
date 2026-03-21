@@ -99,40 +99,81 @@ multiqc ~/binf_6110/assignment_03/metagenomics/qc/raw \
 #Kraken2
 mkdir -p ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd
 mkdir -p ~/binf_6110/assignment_03/metagenomics/kraken2/tcd
+~~~
+#Test runs showed when working with confidence 0.15 for sample 1 in the high_nrcd group, that majority of the sequences were left unclassified. So I tested whether dropping the confidence to O.O5 and 0 improved this. Below are the results 
+#Confidence 0.15
+304973 sequences classified (1.74%)
+17192235 sequences unclassified (98.26%)
 
-#Running Kraken2 on the high-NRCD samples
+#Confidence 0.05
+8674762 sequences classified (49.58%)
+  8822446 sequences unclassified (50.42%)
+
+#Confidence 0
+ 12491139 sequences classified (71.39%)
+  5006069 sequences unclassified (28.61%)
+#Moving forward, the confidence level will be set to the default
+
+# Running Kraken and Bracken through Digial Alliance cluster Nibi
+
+nano /scratch/mogakwu/assignment_03/kraken2_job.sh
+#!/bin/bash
+#SBATCH --account=def-cottenie
+#SBATCH --job-name=kraken2_nrcd
+#SBATCH --time=01:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=32G
+#SBATCH --output=%x-%j.out
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=mogakwu@uoguelph.ca
+
+module load StdEnv/2023
+module load kraken2/2.1.3
+module load bracken/3.0
+
+DB=/scratch/mogakwu/kraken2_db/standard_8
+READS=/scratch/mogakwu/assignment_03/metagenomics
+OUT=/scratch/mogakwu/assignment_03/kraken2_output
+
+mkdir -p $OUT/high_nrcd $OUT/tcd
+
+for run in ERR12025082 ERR12025102 ERR12025074 \
+           SRR22402259 SRR22402265 SRR22402328; do
+    echo "$(date): Running Kraken2 on $run..."
+    if [[ $run == ERR* ]]; then
+        OUTDIR=$OUT/high_nrcd
+        INDIR=$READS/high_nrcd
+    else
+        OUTDIR=$OUT/tcd
+        INDIR=$READS/tcd
+    fi
+    kraken2 --db $DB \
+            --paired \
+            --gzip-compressed \
+            --threads 16 \
+            --output ${OUTDIR}/${run}.kraken \
+            --report ${OUTDIR}/${run}.report \
+            ${INDIR}/${run}_1.fastq.gz \
+            ${INDIR}/${run}_2.fastq.gz
+    echo "$(date): Done $run"
+done
+
+#Bracken abundane reestimation
 for run in ERR12025082 ERR12025102 ERR12025074; do
-    echo "$(date): Running Kraken2 on $run..."
-    kraken2 --db ~/binf_6110/assignment_03/kraken2_db/standard_8 \
-            --paired \
-            --gzip-compressed \
-            --confidence 0.15 \
-            --threads 6 \
-            --output ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd/${run}.kraken \
-            --report ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd/${run}.report \
-            ~/binf_6110/assignment_03/metagenomics/high_nrcd/${run}_1.fastq.gz \
-            ~/binf_6110/assignment_03/metagenomics/high_nrcd/${run}_2.fastq.gz
-    echo "$(date): Done $run"
+    bracken -d $DB \
+            -i $OUT/high_nrcd/${run}.report \
+            -o $OUT/high_nrcd/${run}.bracken \
+            -r 150 -l S -t 10
 done
 
-#Watching analysis progress
-watch -n 10 "echo '=== Completed samples ==='; \
-ls -lh ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd/*.report 2>/dev/null; \
-echo ''; \
-echo '=== Count ==='; \
-ls ~/binf_6110/assignment_03/metagenomics/kraken2/high_nrcd/*.report 2>/dev/null | wc -l"
-
-#Running Kraken2 on the tCD control samples
 for run in SRR22402259 SRR22402265 SRR22402328; do
-    echo "$(date): Running Kraken2 on $run..."
-    kraken2 --db ~/binf_6110/assignment_03/kraken2_db/standard_8 \
-            --paired \
-            --gzip-compressed \
-            --confidence 0.15 \
-            --threads 6 \
-            --output ~/binf_6110/assignment_03/metagenomics/kraken2/tcd/${run}.kraken \
-            --report ~/binf_6110/assignment_03/metagenomics/kraken2/tcd/${run}.report \
-            ~/binf_6110/assignment_03/metagenomics/tcd/${run}_1.fastq.gz \
-            ~/binf_6110/assignment_03/metagenomics/tcd/${run}_2.fastq.gz
-    echo "$(date): Done $run"
+    bracken -d $DB \
+            -i $OUT/tcd/${run}.report \
+            -o $OUT/tcd/${run}.bracken \
+            -r 150 -l S -t 10
 done
+
+echo "$(date): All done!"
+sbatch kraken2_job.sh
