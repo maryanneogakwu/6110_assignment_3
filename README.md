@@ -11,7 +11,8 @@ Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive c
 | Tmux | 3.6 | Conda-forge | Terminal multiplexer | 
 | Kraken2 | 2.17.1 | Bioconda| Taxonomic classification |
 | Braken | 3.1 | Bioconda | Computation of species abundance |
-| Kraken-biom | Smdabdoub | Conversion of kraken files to BIOM |
+| Kraken-biom | Smdabdoub | Conversion of kraken files to BIOM | 1.0.1 |
+| ANCOMBC | BioC 3.21 | 1.30.0 | Microbiome differntial abundance  and correlation analysis | 
 
 ## References
 Bracken: Bayesian Reestimation of Abundance with Kraken (n.d.). John Hopkins University: Center for Computational Biology https://ccb.jhu.edu/software/bracken/
