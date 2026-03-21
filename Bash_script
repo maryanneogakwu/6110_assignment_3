@@ -180,3 +180,42 @@ sbatch kraken2_job.sh
 
 #Conversion to BIOM on DRAC Nibi cluster
 kraken-biom stool_sample_bracken_species.report
+#Loading python module with numpy and pandas included
+module load python/3.11
+
+#Creating and activating python virtual environment
+python -m venv ~/kraken_biom_env
+source ~/kraken_biom_env/bin/activate
+
+#Installing dependencies in virtual environment
+pip install numpy pandas
+
+#Installing Kraken-biom
+pip install kraken-biom
+kraken-biom --version
+
+ls /scratch/mogakwu/assignment_03/kraken2_output_2/high_nrcd
+ERR12025074.bracken                 ERR12025082.report
+ERR12025074.kraken                  ERR12025082_bracken_species.report
+ERR12025074.report                  ERR12025102.bracken
+ERR12025074_bracken_species.report  ERR12025102.kraken
+ERR12025082.bracken                 ERR12025102.report
+ERR12025082.kraken                  ERR12025102_bracken_species.report
+(kraken_biom_env) [mogakwu@l5.nibi assignment_03]$ ls /scratch/mogakwu/assignment_03/kraken2_output_2/tcd
+SRR22402259.bracken                 SRR22402265.report
+SRR22402259.kraken                  SRR22402265_bracken_species.report
+SRR22402259.report                  SRR22402328.bracken
+SRR22402259_bracken_species.report  SRR22402328.kraken
+SRR22402265.bracken                 SRR22402328.report
+SRR22402265.kraken                  SRR22402328_bracken_species.report
+
+#Combining all the bracken_species.report files into one BIOM file 
+cd /scratch/mogakwu/assignment_03/kraken2_output_2
+kraken2_output_2]$ kraken-biom \
+  high_nrcd/ERR12025082.bracken \
+  high_nrcd/ERR12025102.bracken \
+  high_nrcd/ERR12025074.bracken \
+  tcd/SRR22402259.bracken \
+  tcd/SRR22402265.bracken \
+  tcd/SRR22402328.bracken \
+  -o combined.biom --fmt json
