@@ -11,8 +11,11 @@ Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive c
 | Tmux | 3.6 | Conda-forge | Terminal multiplexer | 
 | Kraken2 | 2.17.1 | Bioconda| Taxonomic classification |
 | Braken | 3.1 | Bioconda | Computation of species abundance |
+| Kraken-biom | Smdabdoub | Conversion of kraken files to BIOM |
 
 ## References
 Bracken: Bayesian Reestimation of Abundance with Kraken (n.d.). John Hopkins University: Center for Computational Biology https://ccb.jhu.edu/software/bracken/
 
 Marcos-Zambrano, L. J., Lacruz-Pleguezuelos, B., Aguilar-Aguilar, E., Marcos-Pasero, H., Valdés, A., Loria-Kohen, V., Cifuentes, A., De Molina, A. R., Diaz-Ruiz, A., Pancaldi, V., & De Santa Pau, E. C. (2025). Microbiome gut community structure and functionality are associated with symptom severity in non-responsive celiac disease patients undergoing a gluten-free diet. mSystems, 10(7), e0014325. https://doi.org/10.1128/msystems.00143-25
+
+Dabdoub, SM (2016). kraken-biom: Enabling interoperative format conversion for Kraken results (Version 1.2) [Software]. Available at https://github.com/smdabdoub/kraken-biom.
