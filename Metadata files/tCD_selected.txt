@@ -1,0 +1,4 @@
+SRR22402259	Cii071	tCD_control
+SRR22402265	Cii045	tCD_control
+SRR22402328	CMa003	tCD_control
+

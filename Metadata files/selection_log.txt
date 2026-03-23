@@ -1,0 +1,12 @@
+   High-NRCD selected 
+ERR Accension	Sample Alias	Cluster 
+ERR12025082	1807	high-NRCD
+ERR12025102	1837	high-NRCD
+ERR12025074	1797	high-NRCD
+
+    tCD controls selected  
+SRR Accension	Sample Alias	Cluster   
+SRR22402259	Cii071	tCD_control
+SRR22402265	Cii045	tCD_control
+SRR22402328	CMa003	tCD_control
+
