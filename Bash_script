@@ -211,11 +211,23 @@ SRR22402265.kraken                  SRR22402328_bracken_species.report
 
 #Combining all the bracken_species.report files into one BIOM file 
 cd /scratch/mogakwu/assignment_03/kraken2_output_2
-kraken2_output_2]$ kraken-biom \
-  high_nrcd/ERR12025082.bracken \
-  high_nrcd/ERR12025102.bracken \
-  high_nrcd/ERR12025074.bracken \
-  tcd/SRR22402259.bracken \
-  tcd/SRR22402265.bracken \
-  tcd/SRR22402328.bracken \
-  -o combined.biom --fmt json
+
+kraken-biom \
+  high_nrcd/ERR12025082_bracken_species.report \
+  high_nrcd/ERR12025102_bracken_species.report \
+  high_nrcd/ERR12025074_bracken_species.report \
+  tcd/SRR22402259_bracken_species.report \
+  tcd/SRR22402265_bracken_species.report \
+  tcd/SRR22402328_bracken_species.report \
+   
+
+kraken-biom \
+  high_nrcd/ERR12025082.report \
+  high_nrcd/ERR12025102.report \
+  high_nrcd/ERR12025074.report \
+  tcd/SRR22402259.report \
+  tcd/SRR22402265.report \
+  tcd/SRR22402328.report \
+  --min S \
+  --fmt json \
+  -o combined4.biom 
