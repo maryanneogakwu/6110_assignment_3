@@ -61,7 +61,63 @@ fastqc ~/binf_6110/assignment_03/metagenomics/high_nrcd/*.fastq.gz \
 ```
 Based on the fastqc report, there is no need to trim the sequences. The samples overall have good quality scores, no adapter contamination and no N content issues. The samples all failed on the per base sequence content , likely because the first few bases of Illumina reads tend to show biased composition due to random hexamer priming during library preparation, this won’t have any effect on the Kraken2 classification and diversity analyses. Sample ERR12025102 is flagged for having a duplication percentage of 66% compared to others with 75-80%. This indicates that more reads are unique, showing higher diversity. Overall the tCD control samples have more reads compared to the high-NRCD samples, likely because the reads are from different studies and different Illumina runs. Deeper sequencing detects rarer species, which can inflate alpha diversity in the tCD group independently. This will be c=accounted for by subsampling to equal depth usuing rarefaction before running the diversity analysis.
 
-### 
+### 3. Classification using Kraken2
+Classification was carried out using Kraken2 as opposed to MetaPhlan that was used in the original study because Kraken2 provides higher sensitivity and broader taxonomic coverage, making it better fro detecting the full microbial community in shotgun metagenomics. Kraken2 and Bracken were run through the DRAC Nibi Cluster.
+```
+for run in ERR12025082 ERR12025102 ERR12025074 \
+           SRR22402259 SRR22402265 SRR22402328; do
+    echo "$(date): Running Kraken2 on $run..."
+    if [[ $run == ERR* ]]; then
+        OUTDIR=$OUT/high_nrcd
+        INDIR=$READS/high_nrcd
+    else
+        OUTDIR=$OUT/tcd
+        INDIR=$READS/tcd
+    fi
+    kraken2 --db $DB \
+            --paired \
+            --gzip-compressed \
+            --threads 16 \
+            --output ${OUTDIR}/${run}.kraken \
+            --report ${OUTDIR}/${run}.report \
+            ${INDIR}/${run}_1.fastq.gz \
+            ${INDIR}/${run}_2.fastq.gz
+    echo "$(date): Done $run"
+done
+```
+| Flag              | Purpose                                                                 |
+|-------------------|-------------------------------------------------------------------------|
+| `--db`            | Specifies the path to your Kraken2 database                             |
+| `--paired`        | Indicates that the input consists of paired-end reads                   |
+| `--gzip-compressed` | Allows Kraken2 to read `.fastq.gz` files directly without unzipping    |
+| `--threads 4`     | Uses 4 CPU threads to speed up classification                           |
+| `--output`        | Writes the per-read classification results to a file                    |
+| `--report`        | Generates a summary report used for downstream diversity analyses       |
+
+#### 4. Abundance reestimation using Bracken
+```
+for run in ERR12025082 ERR12025102 ERR12025074; do
+    bracken -d $DB \
+            -i $OUT/high_nrcd/${run}.report \
+            -o $OUT/high_nrcd/${run}.bracken \
+            -r 150 -l S -t 10
+done
+
+for run in SRR22402259 SRR22402265 SRR22402328; do
+    bracken -d $DB \
+            -i $OUT/tcd/${run}.report \
+            -o $OUT/tcd/${run}.bracken \
+            -r 150 -l S -t 10
+done
+```
+
+
+### 5. Diversity Abundance
+#### Alpha Diversity
+
+#### Beta Diversity
+
+#### Differential Abundance
 
 ---
 ## Results
