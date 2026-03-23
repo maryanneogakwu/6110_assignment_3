@@ -8,12 +8,15 @@ Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive c
 | Aspera-cli | 4.20.0 | Bioconda | High speed Raw data download |
 | Fastqc | 0.12.1 | Bioconda | Raw reads QC analyser |
 | Multiqc | 1.33 |Bioconda/noarch| Summarizing Fastqc reports in one document |
-| Tmux | 3.6 | Conda-forge | Terminal multiplexer | 
+| DESeq2 | 1.48.2 | BioC 3.21 | Differential Gene Expression Analysis | 
 | Kraken2 | 2.17.1 | Bioconda| Taxonomic classification |
 | Braken | 3.1 | Bioconda | Computation of species abundance |
 | Kraken-biom | Smdabdoub | Conversion of kraken files to BIOM | 1.0.1 |
-| ANCOMBC | BioC 3.21 | 1.30.0 | Microbiome differntial abundance  and correlation analysis | 
-|
+| Phyloseq | BioC 3.21 | 1.52.0 | Handling high-throughput microbiome census data | 
+| Ggplot2 | 4.0.2 | CRAN | Data Visualisation |
+| Vegan | 2.7 - 3 | CRAN | Community Ecoclogy Package |
+| Biomformat | 1.36.0 | BioC 3.21 | Interface package for BIOM file format |
+
 
 ## References
 Bracken: Bayesian Reestimation of Abundance with Kraken (n.d.). John Hopkins University: Center for Computational Biology https://ccb.jhu.edu/software/bracken/
