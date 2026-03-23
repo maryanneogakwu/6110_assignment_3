@@ -1,14 +1,26 @@
 # 6110_assignment_3
 Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive celiac disease patients (NRCD) vs asymptomatic celiac pateients (control)
+----
 
 ## Introduction
 
+
+---
 ## Methods
 
+
+---
 ## Results
 
+
+----
 ## Discussion
 
+---
+
+## Conclusion
+
+---
 ## Dependencies and Packages
 | Tool | Version | Source | Purpose |
 |------|---------|--------|---------|
