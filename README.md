@@ -94,7 +94,7 @@ done
 | `--output`        | Writes the per-read classification results to a file                    |
 | `--report`        | Generates a summary report used for downstream diversity analyses       |
 
-#### 4. Abundance reestimation using Bracken
+#### Abundance reestimation using Bracken
 ```
 for run in ERR12025082 ERR12025102 ERR12025074; do
     bracken -d $DB \
@@ -113,7 +113,7 @@ done
 
 
 
-### 5. Diversity Abundance
+### 4. Diversity Abundance
 Alpha diversity, beta diversity, and differential abundance each reveal a different layer of biological insight in the high-NRCD vs tCD dataset.
 
 #### Alpha Diversity
