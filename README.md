@@ -12,7 +12,7 @@ Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive c
 | Kraken2 | 2.17.1 | Bioconda| Taxonomic classification |
 | Braken | 3.1 | Bioconda | Computation of species abundance |
 | Kraken-biom | 1.0.1| Smdabdoub | Conversion of kraken files to BIOM |
-| Phyloseq | BioC 3.21 | 1.52.0 | Handling high-throughput microbiome census data | 
+| Phyloseq | 1.52.0 | BioC 3.21 | Handling high-throughput microbiome census data | 
 | Ggplot2 | 4.0.2 | CRAN | Data Visualisation |
 | Vegan | 2.7 - 3 | CRAN | Community Ecoclogy Package |
 | Biomformat | 1.36.0 | BioC 3.21 | Interface package for BIOM file format |
