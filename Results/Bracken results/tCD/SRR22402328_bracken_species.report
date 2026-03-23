@@ -1,0 +1,59 @@
+100.00	21352001	0	R	1	  Viruses
+100.00	21352001	0	R1	2	    Duplodnaviria
+0.12	25124	0	K	2731360	      Heunggongvirae
+0.12	25124	0	P	2731618	        Uroviricota
+0.12	25124	0	C	2731619	          Caudoviricetes
+0.09	19242	0	C1	3424297	            Caudoviricetes incertae sedis
+0.07	15986	0	G	2733199	              Oengusvirus
+0.07	15986	15986	S	2734262	                Oengusvirus oengus
+0.02	3204	0	G	2733134	              Taranisvirus
+0.02	3204	3204	S	2734146	                Taranisvirus taranis
+0.00	22	0	G	2733097	              Brigitvirus
+0.00	22	22	S	2734096	                Brigitvirus brigit
+0.00	19	0	G	2733190	              Lughvirus
+0.00	19	19	S	2734248	                Lughvirus lugh
+0.00	11	0	F	3152129	              Konodaiviridae
+0.00	11	0	G	3152959	                Satomivirus
+0.00	11	11	S	3432268	                  Satomivirus wayo
+0.03	5883	0	O	1978007	            Crassvirales
+0.03	5494	0	F	2942966	              Suoliviridae
+0.03	5457	0	F1	2942974	                Loutivirinae
+0.03	5457	0	G	2942994	                  Buchavirus
+0.01	2638	2638	S	2955551	                    Buchavirus hiberniae
+0.00	974	974	S	2955555	                    Buchavirus splanchnicus
+0.00	770	770	S	2955548	                    Buchavirus coli
+0.00	353	353	S	2955552	                    Buchavirus hominis
+0.00	561	561	S	2955554	                    Buchavirus oralis
+0.00	106	106	S	2955549	                    Buchavirus copri
+0.00	38	38	S	2955550	                    Buchavirus faecalis
+0.00	15	15	S	2955553	                    Buchavirus intestinalis
+0.00	37	0	F1	2942969	                Boorivirinae
+0.00	37	0	G	2942992	                  Culoivirus
+0.00	37	37	S	2955725	                    Culoivirus americanus
+0.00	210	0	F	2942964	              Intestiviridae
+0.00	210	0	F1	2942970	                Churivirinae
+0.00	210	0	G	2948767	                  Jahgtovirus
+0.00	105	105	S	2955998	                    Jahgtovirus secundus
+0.00	65	65	S	2955997	                    Jahgtovirus intestinihominis
+0.00	38	38	S	2955995	                    Jahgtovirus gastrointestinalis
+0.00	113	0	F	2942963	              Crevaviridae
+0.00	113	0	F1	2942971	                Coarsevirinae
+0.00	113	0	G	2948774	                  Junduvirus
+0.00	97	97	S	2956034	                    Junduvirus communis
+0.00	15	15	S	2956035	                    Junduvirus copri
+0.00	65	0	F	2942965	              Steigviridae
+0.00	65	0	F1	2942967	                Asinivirinae
+0.00	65	0	G	2948867	                  Pipoluvirus
+0.00	65	65	S	2956321	                    Pipoluvirus rarus
+100.00	21352001	0	R1	2	    Varidnaviria
+0.00	38	0	K	2732005	      Bamfordvirae
+0.00	38	0	P	2732007	        Nucleocytoviricota
+0.00	38	0	C	2732523	          Megaviricetes
+0.00	38	0	O	2732554	            Imitervirales
+0.00	38	0	F	549779	              Mimiviridae
+0.00	38	0	F1	3044648	                Megamimivirinae
+0.00	38	0	G	315393	                  Mimivirus
+0.00	38	38	S	3047343	                    Mimivirus bradfordmassiliense
+100.00	21352001	0	R1	2	    Riboviria
+100.00	21352001	0	R1	2	    Viruses incertae sedis
+100.00	21352001	0	R1	2	    unclassified viruses
