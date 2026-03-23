@@ -114,12 +114,72 @@ done
 
 
 ### 5. Diversity Abundance
+Alpha diversity, beta diversity, and differential abundance each reveal a different layer of biological insight in the high-NRCD vs tCD dataset.
+
 #### Alpha Diversity
+Alpha Diversity was carried out to measure within‑sample richness and evenness, to determine whether high‑NRCD patients have a depleted or imbalanced microbiome compared to the tCD controls.
+```
+plot_richness(physeq_rare,
+              x = "Cluster",
+              color = "Cluster",
+              measures = c("Observed", "Shannon", "Simpson")) +
+  geom_boxplot(alpha = 0.5) +
+  labs(title = "Alpha Diversity: high-NRCD vs tCD",
+       x = "Group",
+       y = "Diversity") +
+  theme_bw()
+```
 
 #### Beta Diversity
+Beta diversity was carried out to evaluate between‑sample differences, showing whether the two groups form distinct microbial community structures which is essential for demonstrating that high-NRCD is associated with a unique dysbiotic signature. The following three tests help give the complete picture on abundance differences, community structure differences, and compositional turnover.
 
+##### Bray-Curtis PCoA
+This was carried out to capture abundance‑based differences, to observe shifts in dominant taxa separate high‑NRCD from tCD controls
+```
+ord.pcoa.bray <- ordinate(physeq_rare, method = "PCoA", distance = "bray")
+plot_ordination(physeq_rare, ord.pcoa.bray,
+                color = "Cluster",
+                title = "Bray-Curtis PCoA: high-NRCD vs tCD") +
+  geom_point(size = 4) +
+  theme_bw()
+```
+##### NMDS with Bray-Curtis
+NMDS with Bray–Curtis was carried out to provide a non‑linear, rank‑based view of the same distances, which is useful because it can reveal group separation even when the data don’t fit linear assumptions.
+```
+ord.nmds.bray <- ordinate(physeq_rare, method = "NMDS", distance = "bray")
+plot_ordination(physeq_rare, ord.nmds.bray,
+                color = "Cluster",
+                title = "Bray-Curtis NMDS: high-NRCD vs tCD") +
+  geom_point(size = 4) +
+  theme_bw()
+```
+##### Jaccard PCoA
+Jaccard PCoA was carried out to investigate the presence or absence of taxa within the groups and whether the groups differ in which taxa are present at all, regardless of abundance.
+```
+ord.pcoa.jaccard <- ordinate(physeq_rare, method = "PCoA", distance = "jaccard")
+plot_ordination(physeq_rare, ord.pcoa.jaccard,
+                color = "Cluster",
+                title = "Jaccard PCoA: high-NRCD vs tCD") +
+  geom_point(size = 4) +
+  theme_bw()
+```
 #### Differential Abundance
 
+Differential abundance was carried using DESeq2 to identify the specific taxa driving the differences, identifying which species or phyla are enriched or depleted in high‑NRCD. DESeq2 was used over ANCOMBC because it is better for small datasets because as it has negative‑binomial model gives stronger power to detect real differences. It handles low‑abundance taxa and uneven sequencing depth more robustly than ANCOMBC.
+ANCOM‑BC is more conservative, so DESeq2 will typically identify more biologically meaningful shifts in your NRCD vs tCD samples. I also chose to use DESeq2 because my ANCOMBC refused to load in R, even though it was installed.
+```
+ggplot(as.data.frame(res), 
+       aes(x = log2FoldChange, 
+           y = -log10(padj))) +
+  geom_point(aes(color = padj < 0.05), size = 2) +
+  geom_vline(xintercept = 0, color = "red") +
+  scale_color_manual(values = c("FALSE" = "grey", "TRUE" = "blue"),
+                     name = "Significant (padj<0.05)") +
+  labs(title = "Differential Abundance: tCD vs high-NRCD",
+       x = "Log2 Fold Change",
+       y = "-log10(adjusted p-value)") +
+  theme_bw()
+```
 ---
 ## Results
 
