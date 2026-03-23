@@ -16,6 +16,8 @@ Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive c
 | Ggplot2 | 4.0.2 | CRAN | Data Visualisation |
 | Vegan | 2.7 - 3 | CRAN | Community Ecoclogy Package |
 | Biomformat | 1.36.0 | BioC 3.21 | Interface package for BIOM file format |
+| R | 4.5.1 | CRAN | Statistical analysis |
+| SRA Toolkit | 3.3.0 | NCBI | Raw data download |
 
 
 ## References
