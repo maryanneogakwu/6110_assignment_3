@@ -27,7 +27,7 @@ taxo.k2d -> Taxonomy information
 
 #Randomly selecting 3 high NRCD patients from the 39 used in the study
 awk -F'\t' '$3 == "high-NRCD" {print $1"\t"$2"\t"$3}' metadata_table.tsv > high_nrcd_all.txt
-shuf -n 5 high_nrcd_all.txt > high_nrcd_selected.txt
+shuf -n 3 high_nrcd_all.txt > high_nrcd_selected.txt
 
 cat high_nrcd_selected.txt
 ERR12025082	1807	high-NRCD
@@ -35,7 +35,7 @@ ERR12025102	1837	high-NRCD
 ERR12025074	1797	high-NRCD
 
 #Randomly selecting 3 out of the 49 control samples used in the study
-shuf -n 5 tCD_controls_metadata.tsv > tCD_selected.txt
+shuf -n 3 tCD_controls_metadata.tsv > tCD_selected.txt
 
 cat tCD_selected.txt
 SRR22402259	Cii071	tCD_control
@@ -60,7 +60,7 @@ SRR22402328	CMa003	tCD_control
 
 
 #Downloading the seleted high-NRCD samples from ENA
-for run in ERR12025082 ERR12025102 ERR12025074 ERR12025109 ERR12025104; do
+for run in ERR12025082 ERR12025102 ERR12025074; do
     echo "Getting URLs for $run..."
     urls=$(wget -qO- "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${run}&result=read_run&fields=fastq_ftp&format=tsv" \
            | tail -1 | cut -f2 | tr ';' '\n')
@@ -73,7 +73,7 @@ for run in ERR12025082 ERR12025102 ERR12025074 ERR12025109 ERR12025104; do
 done
 
 #Downloading the tCD controls from the ENA database browser
-for run in SRR22402259 SRR22402265 SRR22402328 SRR22402331 SRR22402374; do
+for run in SRR22402259 SRR22402265 SRR22402328; do
     echo "$(date): Downloading $run..."
     urls=$(wget -qO- "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${run}&result=read_run&fields=fastq_ftp&format=tsv" \
            | tail -1 | cut -f2 | tr ';' '\n')
