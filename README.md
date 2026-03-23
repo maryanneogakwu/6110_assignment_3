@@ -11,7 +11,7 @@ Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive c
 | DESeq2 | 1.48.2 | BioC 3.21 | Differential Gene Expression Analysis | 
 | Kraken2 | 2.17.1 | Bioconda| Taxonomic classification |
 | Braken | 3.1 | Bioconda | Computation of species abundance |
-| Kraken-biom | Smdabdoub | Conversion of kraken files to BIOM | 1.0.1 |
+| Kraken-biom | 1.0.1| Smdabdoub | Conversion of kraken files to BIOM |
 | Phyloseq | BioC 3.21 | 1.52.0 | Handling high-throughput microbiome census data | 
 | Ggplot2 | 4.0.2 | CRAN | Data Visualisation |
 | Vegan | 2.7 - 3 | CRAN | Community Ecoclogy Package |
