@@ -4,8 +4,7 @@
 
 Author: Maryanne Ogakwu
 
-Dataset
-
+Dataset:   PRJEB65879 - Zambrano et al. (2025) and PRJNA904924 -Francavilla et al. (2023)
 
 ----
 
@@ -58,7 +57,7 @@ done
 
 
 ### 2. Quality Control
-The analysis involved pairwise comparison of the 2 groups. Poor QC can lead to biological conclusions derived from technical artifacts. Trimming the low quality reads can lead to inflated species counts and false diversity measures, and adapter contamination can cause false positives as taxa will be incorrectly placed between groups. 
+The analysis involved pairwise comparison of the 2 groups. Quality Control was carried out usingg Fastqc (v 0.12.1). Poor QC can lead to biological conclusions derived from technical artifacts. Trimming the low quality reads can lead to inflated species counts and false diversity measures, and adapter contamination can cause false positives as taxa will be incorrectly placed between groups. 
 ```
 fastqc ~/binf_6110/assignment_03/metagenomics/high_nrcd/*.fastq.gz \
        ~/binf_6110/assignment_03/metagenomics/tcd/*.fastq.gz \
@@ -68,7 +67,7 @@ fastqc ~/binf_6110/assignment_03/metagenomics/high_nrcd/*.fastq.gz \
 Based on the fastqc report, there is no need to trim the sequences. The samples overall have good quality scores, no adapter contamination and no N content issues. The samples all failed on the per base sequence content , likely because the first few bases of Illumina reads tend to show biased composition due to random hexamer priming during library preparation, this won’t have any effect on the Kraken2 classification and diversity analyses. Sample ERR12025102 is flagged for having a duplication percentage of 66% compared to others with 75-80%. This indicates that more reads are unique, showing higher diversity. Overall the tCD control samples have more reads compared to the high-NRCD samples, likely because the reads are from different studies and different Illumina runs. Deeper sequencing detects rarer species, which can inflate alpha diversity in the tCD group independently. This will be c=accounted for by subsampling to equal depth usuing rarefaction before running the diversity analysis.
 
 ### 3. Classification using Kraken2
-Classification was carried out using Kraken2 as opposed to MetaPhlan that was used in the original study because Kraken2 provides higher sensitivity and broader taxonomic coverage, making it better fro detecting the full microbial community in shotgun metagenomics. Kraken2 and Bracken were run through the DRAC Nibi Cluster.
+Classification was carried out using Kraken2 (v 2.17.1) as opposed to MetaPhlan that was used in the original study because Kraken2 provides higher sensitivity and broader taxonomic coverage, making it better fro detecting the full microbial community in shotgun metagenomics. Kraken2 and DRAC Nibi Cluster was used to run computationally intensive Kraken2 and Bracken analyses with 16 CPU cores and 32GB RAM, significantly reducing processing time compared to local computation.
 ```
 for run in ERR12025082 ERR12025102 ERR12025074 \
            SRR22402259 SRR22402265 SRR22402328; do
@@ -100,7 +99,8 @@ done
 | `--output`        | Writes the per-read classification results to a file                    |
 | `--report`        | Generates a summary report used for downstream diversity analyses       |
 
-#### Abundance reestimation using Bracken
+#### Abundance reestimation using Bracken 
+ Bracken (v 3.1) was used to reestimate species-level abundances from Kraken2 output by statistically redistributing reads assigned to higher taxonomic levels down to species level.
 ```
 for run in ERR12025082 ERR12025102 ERR12025074; do
     bracken -d $DB \
@@ -117,10 +117,25 @@ for run in SRR22402259 SRR22402265 SRR22402328; do
 done
 ```
 
-
+##### Data conversion using Kraken-biom
+Report files, generated with Kraken were combined and converted using Kraken-biom (v 1.0.1). 
+`-fmt json` — biom files come in two formats, JSON and HDF5. The biomformat R package reads JSON more reliably, so specifying this avoids compatibility issues when you import into R.
+`--min S` - tells kraken-biom to assign reads at below min rank will be recorded as being assigned to the min rank level.
+```
+kraken-biom \
+  high_nrcd/ERR12025082.report \
+  high_nrcd/ERR12025102.report \
+  high_nrcd/ERR12025074.report \
+  tcd/SRR22402259.report \
+  tcd/SRR22402265.report \
+  tcd/SRR22402328.report \
+  --min S \
+  --fmt json \
+  -o combined4.biom
+```
 
 ### 4. Diversity Abundance
-Alpha diversity, beta diversity, and differential abundance each reveal a different layer of biological insight in the high-NRCD vs tCD dataset.
+Alpha diversity, beta diversity, and differential abundance each reveal a different layer of biological insight in the high-NRCD vs tCD dataset. Phyloseq (1.52.0) was used to store and manage the combined taxonomic abundance data, sample metadata and taxonomy table in a single unified object for downstream diversity analyses. Biomformat (v 1.36.0) was used to import the combined BIOM file into R and convert it into a format compatible with the phyloseq package.
 
 #### Alpha Diversity
 Alpha Diversity was carried out to measure within‑sample richness and evenness, to determine whether high‑NRCD patients have a depleted or imbalanced microbiome compared to the tCD controls.
@@ -171,8 +186,8 @@ plot_ordination(physeq_rare, ord.pcoa.jaccard,
 ```
 #### Differential Abundance
 
-Differential abundance was carried using DESeq2 to identify the specific taxa driving the differences, identifying which species or phyla are enriched or depleted in high‑NRCD. DESeq2 was used over ANCOMBC because it is better for small datasets because as it has negative‑binomial model gives stronger power to detect real differences. It handles low‑abundance taxa and uneven sequencing depth more robustly than ANCOMBC.
-ANCOM‑BC is more conservative, so DESeq2 will typically identify more biologically meaningful shifts in your NRCD vs tCD samples. I also chose to use DESeq2 because my ANCOMBC refused to load in R, even though it was installed.
+Differential abundance was carried using DESeq2 (1.48.2) to identify the specific taxa driving the differences, identifying which species or phyla are enriched or depleted in high‑NRCD. DESeq2 was used over ANCOMBC because it is better for small datasets because as it has negative‑binomial model gives stronger power to detect real differences. It handles low‑abundance taxa and uneven sequencing depth more robustly than ANCOMBC.
+ANCOM‑BC is more conservative, so DESeq2 will typically identify more biologically meaningful shifts in your NRCD vs tCD samples [11]. ANCOMBC was attempted for differential abundance analysis but excluded due to a package dependency conflict with CVXR.
 ```
 ggplot(as.data.frame(res), 
        aes(x = log2FoldChange, 
@@ -229,7 +244,7 @@ Overall, the combined beta‑diversity and differential‑abundance analyses dem
 ## Dependencies and Packages
 | Tool | Version | Source | Purpose |
 |------|---------|--------|---------|
-| Aspera-cli | 4.20.0 | Bioconda | High speed Raw data download |
+| SRA Toolkit | 3.3.0 | NCBI | Raw data download |
 | Fastqc | 0.12.1 | Bioconda | Raw reads QC analyser |
 | Multiqc | 1.33 |Bioconda/noarch| Summarizing Fastqc reports in one document |
 | DESeq2 | 1.48.2 | BioC 3.21 | Differential Gene Expression Analysis | 
@@ -261,10 +276,10 @@ Overall, the combined beta‑diversity and differential‑abundance analyses dem
 
 - [8] Laurichi. (n.d.). GitHub - laurichi13/NRCD_analysis. GitHub. https://github.com/laurichi13/NRCD_analysis/tree/main
 
+- [9] Bracken: Bayesian Reestimation of Abundance with Kraken (n.d.). John Hopkins University: Center for Computational Biology https://ccb.jhu.edu/software/bracken/
 
-- Bracken: Bayesian Reestimation of Abundance with Kraken (n.d.). John Hopkins University: Center for Computational Biology https://ccb.jhu.edu/software/bracken/
+- [10] Dabdoub, SM (2016). kraken-biom: Enabling interoperative format conversion for Kraken results (Version 1.2) [Software]. Available at https://github.com/smdabdoub/kraken-biom.
 
-
-
+- [11] DESeq2 vs. ANCOM results. (2020). QIIME 2 Forum. https://forum.qiime2.org/t/deseq2-vs-ancom-results/1738
 
 - Dabdoub, SM (2016). kraken-biom: Enabling interoperative format conversion for Kraken results (Version 1.2) [Software]. Available at https://github.com/smdabdoub/kraken-biom.
