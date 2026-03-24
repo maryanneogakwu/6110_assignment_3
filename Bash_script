@@ -213,15 +213,6 @@ SRR22402265.kraken                  SRR22402328_bracken_species.report
 cd /scratch/mogakwu/assignment_03/kraken2_output_2
 
 kraken-biom \
-  high_nrcd/ERR12025082_bracken_species.report \
-  high_nrcd/ERR12025102_bracken_species.report \
-  high_nrcd/ERR12025074_bracken_species.report \
-  tcd/SRR22402259_bracken_species.report \
-  tcd/SRR22402265_bracken_species.report \
-  tcd/SRR22402328_bracken_species.report \
-   
-
-kraken-biom \
   high_nrcd/ERR12025082.report \
   high_nrcd/ERR12025102.report \
   high_nrcd/ERR12025074.report \
