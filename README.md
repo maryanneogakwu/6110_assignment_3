@@ -1,5 +1,11 @@
 # 6110_assignment_3
-Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive celiac disease patients (NRCD) vs asymptomatic celiac pateients (control)
+
+**Shotgun metagenomics Analysis of Human Gut Microbiomes in severe non-reponsive celiac disease patients (NRCD) vs asymptomatic celiac pateients (control)**
+
+Author: Maryanne Ogakwu
+
+Dataset
+
 
 ----
 
@@ -182,7 +188,27 @@ ggplot(as.data.frame(res),
 ```
 ---
 ## Results
+Extra plots and discussions of the plots can be found in the Results directory and in the corresponding plot folders. These were not included in the README.md file for the sake of brevity.
 
+### Alpha Diversity
+<img width="1000" height="500" alt="Alpha Diversity Plot" src="https://github.com/user-attachments/assets/a7ea9d5d-2281-49af-b990-0d4d11e960bd" />
+
+**Figure 1.** This plot compares within-sample miv=crobial diversity between the high-NRCD patients and the tCD controls using 3 metrics: Observed richness, Shannon diversity and Simpson diversity. Across all measures, the tCD control group shows consistently higher microbial diversity counts, with tighter distributions and higher medians. The high-NRCD group displays reduced richness and eveness, indicating that individuals with Non-responsive Celiac Disease (NRCD) have a microbiome that is significantly less diverse and potentially more dysbiotic. These findings support the paper's observed results, in which high- NRCD patients exhibit depleted microbial ecosystem characterized by lower alpha diversity. These can be interpreted as a sign of imparied microbial resilience and altered gut ecology.
+
+#### Relative Abundance Test: Top 10 Species
+<img width="1000" height="700" alt="Relative Abundance species level" src="https://github.com/user-attachments/assets/99eace8e-c9b0-4450-b8b7-7882d5833464" />
+
+**Figure 2.** This plot revels a clear compositional shift between the 2 groups, as the high-NRCD samples are shown to have a dominant subset of species,This aligns with the paper's findings that link NRCS to a dysbiotic microbiome and overrepresentation of pro-inflammatory Bacteroides species. In the high-NRCD group, Bacteroides cellulosilyticus (salmon/coral) is the dominant species across all three samples, particularly in ERR12025082 where it accounts for over 50% of the classified reads. Faecalibacterium prausnitzii (green) and Bacteroides sunii (purple) are also consistently present across the high-NRCD samples. The tCD controls show a more balanced distribution of species with no single taxon dominating to the same extent. The samples in tCD can also be observed to have higher ralative abundances of Bacteroidota  (Bacteroides dorei (olive green) and Bacteroides vulgatus (pink)) compared to the high-NRCD group. Overall, the high-NRCD group appears to have a more uneven community composition dominated by fewer species, while the tCD control group shows a comparatively more balanced distribution among the top taxa, suggesting potential differences in microbial community structure between the two groups.
+
+#### Beta Diversity: Bray-Curtis PCoA
+<img width="937" height="392" alt="PCoA Bray-Curtis" src="https://github.com/user-attachments/assets/72997b44-88b9-4e43-852f-76530a8c6706" />
+
+**Figure 3** This plot represents how similar or different the microbiomes are between the 2 groups. Each dot frepresents a sample the distance between dots reflects how different their microbial communities are. The red high‑NRCD samples cluster together on one side, while the cyan tCD controls cluster on the other, meaning the two groups have noticeably different overall microbiome compositions. This indicates that NRCD microbiomes resemble each other more closely than the the tCD controls, which supports the paper's conclusions of NRCD microbiomes being distinct dysbiotic community structure dominated by specific Bacteroides species and reduced SCFA‑producers, while tCD controls have a more balanced microbiome.
+
+#### Beta Diversity 2: Jaccard PCoA
+<img width="1000" height="500" alt="PCoA Jaccard" src="https://github.com/user-attachments/assets/233be297-cd31-447e-ac31-99e84c62a542" />
+
+**Figure 4** This plot represents how different the microbiomes are between the two groups based on the presence or absence of the species, disregarding how much abundance they have. The dots that sit closer together share more of the same species. The red high‑NRCD samples cluster separately from the cyan tCD controls, meaning the two groups differ not just in abundance patterns but also in the overall taxa composition they contain. This shows that NRCD and tCD samples don’t just differ in how much of each species they, have but also in which species show up in the first place, reinforcing that the two groups have distinct microbial communities. This aligns with the paper’s observation that NRCD is associated with the loss of beneficial taxa like Faecalibacterium prausnitzii and the appearance or dominance of inflammation‑linked species.
 
 ----
 ## Discussion
