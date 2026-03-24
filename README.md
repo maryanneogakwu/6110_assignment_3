@@ -213,9 +213,17 @@ Extra plots and discussions of the plots can be found in the Results directory a
 ----
 ## Discussion
 
+Across all analyses, the microbial profiles of high‑NRCD patients consistently diverged from those of tCD controls, reinforcing the dysbiosis pattern described in the original study. The Bray–Curtis PCoA and NMDS plots both showed clear separation between groups, indicating that NRCD is associated with broad shifts in microbial abundance rather than random variation. The Jaccard PCoA added an important complementary perspective by demonstrating that the two groups also differ in species presence and absence, suggesting that NRCD involves the loss of beneficial taxa and the emergence of taxa not typically found in treated celiac individuals. These community level differences were further supported by the differential‑abundance volcano plot, which highlighted specific taxa enriched in each condition, mirroring the paper’s findings of reduced SCFA‑producing Firmicutes and increased Bacteroides associated species in NRCD. Together, these results suggest that NRCD is characterized by a stable but altered microbial community structure that may contribute to persistent symptoms despite adherence to a gluten‑free diet.
+
+Taken together, these findings highlight the importance of examining NRCD not only as a clinical condition but also as a disorder with a strong microbial component. The consistency of the high‑NRCD samples across multiple beta‑diversity metrics suggests that once dysbiosis is established, it may form a stable and resilient community structure that persists despite dietary treatment. This stability could help explain why some patients continue to experience symptoms even with strict gluten avoidance. In contrast, the slightly more variable profiles in tCD controls may reflect a healthier, more adaptable microbial ecosystem. These observations underscore the need to consider the microbiome as a potential contributor to disease persistence and as a target for therapeutic intervention.
+
+Future studies should move beyond taxonomic profiling to explore the functional consequences of this dysbiosis, such as shifts in metabolic pathways, SCFA production, or immune‑modulating microbial metabolites. Longitudinal sampling would help determine whether these microbial signatures precede NRCD onset or arise as a consequence of chronic inflammation. Additionally, integrating metagenomics with host transcriptomics or metabolomics could clarify how microbial changes interact with mucosal immune responses. Finally, intervention studies, such as targeted probiotics, microbiota directed foods, or fecal microbiota transplantation—may help determine whether modifying the gut microbiome can restore microbial balance and improve clinical outcomes in NRCD.
+
 ---
 
 ## Conclusion
+
+Overall, the combined beta‑diversity and differential‑abundance analyses demonstrate that high‑NRCD patients harbor a distinctly altered gut microbiome compared to tCD controls, consistent with the dysbiosis signature described in the original study. While the two groups appear similar at broad taxonomic levels, finer‑scale analyses reveal clear shifts in community structure, species presence, and key functional taxa. These findings highlight the potential role of the microbiome in the persistence of symptoms in NRCD and underscore the need for deeper functional and longitudinal investigations to clarify how microbial alterations contribute to disease mechanisms and therapeutic outcomes.
 
 ---
 ## Dependencies and Packages
